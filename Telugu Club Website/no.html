@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Responsive 4‑Button Menu Bar</title>
+  <style>
+    :root{
+      --bg: #0f172a;           /* bar background */
+      --btn: #111827;          /* button background */
+      --txt: #e5e7eb;          /* text color */
+      --muted: #94a3b8;        /* muted label */
+      --accent: #22d3ee;       /* active/indicator */
+      --hover: #1f2937;        /* button hover */
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: linear-gradient(180deg, #0b1020, #0b1020 40%, #0c1224 100%);
+      color: var(--txt);
+      min-height: 100svh;
+      padding-bottom: 84px; /* space for bottom bar on phones */
+    }
+
+    /* Demo content */
+    .demo{
+      max-width: 1000px; margin: 40px auto; padding: 0 16px;
+    }
+    .demo h1{ font-size: clamp(24px, 3.5vw, 44px); margin: 0 0 8px; }
+    .demo p{ color: var(--muted); }
+
+    /* === NAV BAR === */
+    .nav-wrap{
+      position: fixed; left: 0; right: 0; bottom: 0; /* bottom bar on mobile */
+      padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom));
+      background: transparent;
+      z-index: 999;
+    }
+
+    .nav{
+      background: var(--bg);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px rgba(0,0,0,.35);
+      padding: 8px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .nav a{
+      appearance: none; -webkit-tap-highlight-color: transparent;
+      text-decoration: none; color: var(--muted);
+      background: var(--btn);
+      border-radius: calc(var(--radius) - 6px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 10px 6px; min-height: 56px; gap: 6px;
+      font-weight: 600; font-size: 12px; letter-spacing: .2px;
+      transition: transform .12s ease, background .2s ease, color .2s ease;
+      position: relative; overflow: hidden;
+    }
+    .nav a .icon{ font-size: 20px; line-height: 1; }
+    .nav a:hover{ background: var(--hover); transform: translateY(-1px); }
+    .nav a.active{ color: var(--txt); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.09); }
+
+    /* Active indicator bar */
+    .indicator{
+      position: absolute; left: 8px; right: 8px; bottom: 8px; height: 3px;
+      background: var(--accent); border-radius: 3px;
+      transform-origin: left; transform: scaleX(0);
+      transition: transform .25s ease;
+      pointer-events: none;
+    }
+    .nav a.active .indicator{ transform: scaleX(1); }
+
+    /* Ripple effect */
+    .ripple{ position: absolute; border-radius: 50%; inset: 0; pointer-events: none; opacity: 0; transform: scale(0); background: radial-gradient(circle, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 60%); }
+    .nav a:active .ripple{ opacity: 1; transform: scale(1); transition: transform .35s ease, opacity .5s ease; }
+
+    /* Larger screens: move bar to the top and make it sleeker */
+    @media (min-width: 768px){
+      body{ padding-bottom: 0; }
+      .nav-wrap{ top: 12px; bottom: auto; padding: 0 18px; }
+      .nav{ max-width: 980px; margin: 0 auto; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .nav a{ flex-direction: row; justify-content: center; gap: 10px; min-height: 48px; font-size: 14px; }
+      .nav a .icon{ font-size: 18px; }
+      .indicator{ display: none; } /* cleaner look on desktop */
+    }
+  </style>
+</head>
+<body>
+  <main class="demo">
+    <h1>Responsive 4‑Button Menu Bar</h1>
+    <p>Mobile: sticky bottom bar. Desktop/tablet: sleek top bar. Change labels, icons, and links as you like.</p>
+    <p>Tip: Replace <code>href="#"</code> with your page links or routes. The active state updates with JavaScript.</p>
+  </main>
+
+  <!-- === MENU BAR === -->
+  <div class="nav-wrap" role="navigation" aria-label="Primary">
+    <nav class="nav" id="navBar">
+      <a href="#home" data-key="home" class="active" aria-current="page">
+        <span class="icon">🏠</span>
+        <span class="label">Home</span>
+        <span class="indicator"></span>
+        <span class="ripple"></span>
+      </a>
+      <a href="#events" data-key="events">
+        <span class="icon">🎬</span>
+        <span class="label">Events</span>
+        <span class="indicator"></span>
+        <span class="ripple"></span>
+      </a>
+      <a href="#gallery" data-key="gallery">
+        <span class="icon">🖼️</span>
+        <span class="label">Gallery</span>
+        <span class="indicator"></span>
+        <span class="ripple"></span>
+      </a>
+      <a href="#about" data-key="about">
+        <span class="icon">ℹ️</span>
+        <span class="label">About</span>
+        <span class="indicator"></span>
+        <span class="ripple"></span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    // === Simple JS: set active button + remember last active ===
+    const nav = document.getElementById('navBar');
+    const links = Array.from(nav.querySelectorAll('a'));
+
+    function setActive(el){
+      links.forEach(a => a.classList.remove('active'));
+      el.classList.add('active');
+      // Remember selection
+      const key = el.getAttribute('data-key');
+      try{ localStorage.setItem('activeTab', key); }catch(e){}
+    }
+
+    // Restore last active on load
+    const saved = localStorage.getItem('activeTab');
+    if(saved){
+      const found = nav.querySelector(`[data-key="${saved}"]`);
+      if(found) setActive(found);
+    }
+
+    // Click handling (also prevents jumping if using #hash for demo)
+    nav.addEventListener('click', (e)=>{
+      const a = e.target.closest('a');
+      if(!a) return;
+      setActive(a);
+      // If you are navigating to real pages, remove the next 2 lines
+      if(a.getAttribute('href').startsWith('#')) e.preventDefault();
+    });
+
+    // Optional: programmatically switch active tab from other scripts
+    window.setActiveMenu = (key) => {
+      const el = nav.querySelector(`[data-key="${key}"]`);
+      if(el) setActive(el);
+    };
+  </script>
+</body>
+</html>

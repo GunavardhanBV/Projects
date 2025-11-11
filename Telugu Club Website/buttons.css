@@ -1,0 +1,144 @@
+    html {
+  scroll-behavior:smooth;
+}
+body {
+  margin: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+body.fade-out {
+  opacity: 0;
+}
+
+.hero {
+  height: 70vh;
+}
+
+.middle{
+  margin-top: 150px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background:rgb(44, 44, 44);
+  padding: 10px 3px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+}
+
+.name span {
+  color: gold;
+}
+.left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Description {
+  font-weight: bolder;
+
+}
+
+.name {
+  font-size: larger;
+  font-weight: bolder;
+  color: #fffefe;
+}
+nav a {
+  margin: 0 12px;
+  font-weight: bolder;
+  font-size: larger;
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: rgb(0, 232, 232);
+}
+
+.search-login {
+  display: flex;
+  gap: 10px;
+}
+
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 300px;
+        margin-left: 20px;
+        gap: 40px;
+    }
+
+    .btn {
+        padding: 20px 60px;
+        font-size: 1.5rem;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        font-weight: bold;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-1 {
+        background: linear-gradient(45deg, #ff512f, #dd2476);
+    }
+
+    .btn-2 {
+        background: linear-gradient(45deg, #36d1dc, #5b86e5);
+    }
+
+    .btn:hover {
+        transform: scale(1.08);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    }
+
+
+@media (max-width: 768px) {
+  .button-container{
+    margin-top: 200px;
+  }
+   .navbar{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+      }
+      .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 150px;
+  }
+}
+
+
+@media (max-width: 340px) {
+  .left{
+    font-size: 13px;
+  }
+  .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 150px;
+  }
+
+}

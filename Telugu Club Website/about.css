@@ -1,0 +1,132 @@
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      color: beige;
+    }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background:rgb(44, 44, 44);
+  padding: 10px 3px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+nav a {
+  margin: 0 12px;
+  font-weight: bolder;
+  font-size: larger;
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+.name {
+  font-size: larger;
+  font-weight: bolder;
+}
+nav a:hover {
+  color: rgb(0, 232, 232);
+}
+.logo {
+  width: 100px;
+}
+
+.name span {
+  color: gold;
+}
+.left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    .section h2 {
+      text-align: center;
+      font-size: 32px;
+      color: rgb(0, 232, 232);
+    }
+
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .text {
+      flex: 1;
+      min-width: 300px;
+    }
+    .text h1 {
+      color:rgb(0, 232, 232) ;
+      font-size: 30px;
+    }
+
+    .text p {
+      font-weight: bolder;
+      line-height: 1.6;
+      font-size: large;
+    }
+
+    .image {
+      flex: 1;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .image img {
+      max-width: 60%;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px #0f0f0f;
+    }
+
+    .signature {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 24px;
+      margin-top: 10px;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .image img{
+        max-width: 90%;
+      }
+      .navbar{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+      }
+      .navbar a {
+        padding-bottom: 10px;
+      }
+      .text h1 {
+      color:rgb(255, 255, 255) ;
+      font-size: 30px;
+    }
+
+     
+    }
+
+    @media (max-width: 340px) {
+      .section {
+      padding: 60px 2px;
+    }
+    .left{
+    font-size: 13px;
+  }
+    }
