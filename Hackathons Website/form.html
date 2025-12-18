@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Team Project Registration</title>
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;margin:0;padding:24px;background:#0f172a;color:#e2e8f0}
+    .wrap{max-width:720px;margin:auto}
+    h1{margin:0 0 16px}
+    form{background:#111827;border:1px solid #1f2937;padding:16px;border-radius:14px}
+    label{display:block;font-size:14px;margin:12px 0 6px}
+    input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #374151;background:#0b1220;color:#e5e7eb}
+    textarea{min-height:96px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .actions{display:flex;gap:12px;margin-top:14px}
+    button{padding:10px 14px;border-radius:12px;border:0;cursor:pointer}
+    .primary{background:#2563eb;color:white}
+    .ghost{background:transparent;border:1px solid #334155;color:#e2e8f0}
+    .hint{font-size:12px;color:#94a3b8}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Team Project Registration</h1>
+    <p class="hint">After submitting, your details will appear as a card on the next page.</p>
+
+    <form id="regForm">
+      <label>Team Name
+        <input required name="teamName" placeholder="e.g., Code Warriors" />
+      </label>
+
+      <div class="row">
+        <label>Leader Name
+          <input required name="leaderName" placeholder="e.g., Akshendra Kumar" />
+        </label>
+        <label>Year
+          <select required name="year">
+            <option value="">Select Year</option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="row">
+        <label>Phone Number
+          <input required name="phone" inputmode="numeric" maxlength="10" placeholder="10 digit mobile" />
+        </label>
+        <label>Email Address
+          <input required type="email" name="email" placeholder="leader@email.com" />
+        </label>
+      </div>
+
+      <label>Project Title
+        <input required name="projectTitle" placeholder="e.g., Event Platform" />
+      </label>
+
+      <label>Project Description
+        <textarea required name="projectDesc" placeholder="Write 2–3 lines about your project"></textarea>
+      </label>
+
+      <label>Project Link (GitHub / Drive / Demo)
+        <input name="projectLink" type="url" placeholder="https://..." />
+      </label>
+
+      <div class="actions">
+        <button class="primary" type="submit">Submit</button>
+        <button class="ghost" type="button" id="viewAll">View Submissions</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const LS_KEY = "team_submissions_v1";
+
+    document.getElementById("viewAll").addEventListener("click", () => {
+      location.href = "submissions.html";
+    });
+
+    document.getElementById("regForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = {
+        id: crypto.randomUUID(),
+        ts: Date.now(),
+        teamName: fd.get("teamName"),
+        leaderName: fd.get("leaderName"),
+        year: fd.get("year"),
+        phone: fd.get("phone"),
+        email: fd.get("email"),
+        projectTitle: fd.get("projectTitle"),
+        projectDesc: fd.get("projectDesc"),
+        projectLink: fd.get("projectLink")
+      };
+      const existing = JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+      existing.push(data);
+      localStorage.setItem(LS_KEY, JSON.stringify(existing));
+      sessionStorage.setItem("last_submission_id", data.id);
+      location.href = "submissions.html";
+    });
+  </script>
+</body>
+</html>

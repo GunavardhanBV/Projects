@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Reset */
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      display: flex;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+      background: #f5f6fa;
+      color: #222;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: #1e1e2f;
+      color: #fff;
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+    }
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      margin: 6px 0;
+      color: #bbb;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    .sidebar a i {
+      margin-right: 12px;
+    }
+    .sidebar a:hover {
+      background: #3e3e5e;
+      color: #fff;
+      transform: translateX(6px);
+    }
+    .logout {
+      background: #e84118;
+      color: #fff !important;
+      justify-content: center;
+    }
+
+    /* Main */
+    .main {
+      margin-left: 250px;
+      flex: 1;
+      padding: 20px;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .navbar h1 {
+      font-size: 24px;
+    }
+    .mode-toggle {
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    /* Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    .card p {
+      font-size: 18px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Dark Mode */
+    body.dark {
+      background: #121212;
+      color: #ddd;
+    }
+    body.dark .card {
+      background: #1e1e2f;
+      color: #fff;
+    }
+    body.dark .navbar {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <h2>Admin</h2>
+      <a href="#"><i class="fas fa-home"></i> Dashboard</a>
+      <a href="#"><i class="fas fa-users"></i> Users</a>
+      <a href="#"><i class="fas fa-calendar"></i> Events</a>
+      <a href="#"><i class="fas fa-cogs"></i> Settings</a>
+    </div>
+    <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="navbar">
+      <h1>Dashboard</h1>
+      <i class="fas fa-moon mode-toggle" id="modeToggle"></i>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Total Users</h3>
+        <p>120</p>
+      </div>
+      <div class="card">
+        <h3>Active Events</h3>
+        <p>8</p>
+      </div>
+      <div class="card">
+        <h3>Pending Requests</h3>
+        <p>15</p>
+      </div>
+      <div class="card">
+        <h3>Revenue</h3>
+        <p>$5,200</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dark mode toggle
+    const toggle = document.getElementById('modeToggle');
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      toggle.classList.toggle('fa-sun');
+    });
+
+    if (localStorage.getItem("isAdmin") !== "true") {
+    window.location.href = "login.html"; // redirect to login if not logged in
+  }
+
+  // Logout button (already created in sidebar)
+  document.querySelector(".logout").addEventListener("click", () => {
+    localStorage.removeItem("isAdmin");
+    window.location.href = "login.html";
+  });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mission 99.1</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1605902711622-cfb43c4437d3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      padding: 40px;
+    }
+
+    .glitch {
+      font-size: 6rem;
+      font-weight: 900;
+      position: relative;
+      color: #00fff7;
+      text-transform: uppercase;
+      animation: flicker 2s infinite;
+      letter-spacing: 4px;
+    }
+
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .glitch::before {
+      left: 3px;
+      text-shadow: -3px 0 magenta;
+      animation: glitch 2s infinite;
+    }
+
+    .glitch::after {
+      left: -3px;
+      text-shadow: -3px 0 cyan;
+      animation: glitch 3s infinite;
+    }
+
+    .tagline {
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      line-height: 1.6;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      margin-top: 3rem;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(90deg, #00fff7, #ff00e0);
+      border-radius: 60px;
+      color: #000;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: transform 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      transform: scale(1.08);
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.3;
+      }
+    }
+
+    @keyframes glitch {
+      0% { clip: rect(42px, 9999px, 44px, 0); }
+      5% { clip: rect(12px, 9999px, 85px, 0); }
+      10% { clip: rect(72px, 9999px, 24px, 0); }
+      15% { clip: rect(32px, 9999px, 94px, 0); }
+      20%, 100% { clip: rect(0, 9999px, 0, 0); }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="overlay"></div>
+    <div class="content">
+      <h1 class="glitch" data-text="MISSION 99.1">MISSION 99.1</h1>
+      <p class="tagline">Code. Create. Conquer.<br>Secure your spot in the next big hackathon.</p>
+      <a href="login (2).html" class="cta-btn">Apply Now 🚀</a>
+    </div>
+  </section>
+</body>
+</html>

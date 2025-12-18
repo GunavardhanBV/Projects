@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Team Submissions</title>
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;margin:0;padding:24px;background:#0b1220;color:#e5e7eb}
+    .top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;max-width:1100px;margin:auto;gap:12px}
+    .top h1{margin:0 0 12px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    button,select,input{padding:10px 14px;border-radius:12px;border:1px solid #334155;background:#111827;color:#e5e7eb}
+    .grid{max-width:1100px;margin:18px auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    .card{background:#0f172a;border:1px solid #1f2937;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .card .head{padding:14px 14px 0}
+    .badge{display:inline-block;padding:4px 8px;border:1px solid #334155;border-radius:999px;font-size:12px;margin-top:6px}
+    .card .body{padding:14px;font-size:14px;color:#cbd5e1}
+    .muted{color:#94a3b8;font-size:12px}
+    .link{margin-top:8px;display:inline-block;text-decoration:none;border:1px solid #334155;padding:8px 10px;border-radius:10px}
+    .highlight{outline:2px solid #2563eb}
+    .empty{max-width:720px;margin:36px auto;padding:20px;border:1px dashed #334155;border-radius:16px;text-align:center}
+    .filters{display:flex;gap:10px;flex-wrap:wrap;max-width:1100px;margin:20px auto}
+    .filters input{flex:1}
+    .marksBox{margin-top:12px;display:flex;gap:8px;align-items:center}
+    .marksBox input{width:60px;text-align:center}
+    .marksSaved{color:#22c55e;font-size:12px;margin-left:6px}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <h1>All Team Submissions</h1>
+    <div class="actions">
+      <button onclick="location.href='form.html'">+ New Submission</button>
+      <button id="clearAll">Clear All (Local)</button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input type="text" id="search" placeholder="Search by project, team or leader..." />
+    <select id="yearFilter">
+      <option value="">All Years</option>
+      <option value="1st">1st Year</option>
+      <option value="2nd">2nd Year</option>
+      <option value="3rd">3rd Year</option>
+      <option value="4th">4th Year</option>
+    </select>
+  </div>
+
+  <div id="cards" class="grid"></div>
+  <div id="empty" class="empty" style="display:none;">
+    No submissions found. Try a different search or filter.
+  </div>
+
+  <script>
+    const LS_KEY = "team_submissions_v1";
+    const lastId = sessionStorage.getItem("last_submission_id");
+    let allData = [];
+
+    function timeAgo(ts){
+      const sec = Math.floor((Date.now()-ts)/1000);
+      if (sec < 60) return sec+"s ago";
+      const m = Math.floor(sec/60); if(m<60) return m+"m ago";
+      const h = Math.floor(m/60); if(h<24) return h+"h ago";
+      const d = Math.floor(h/24); return d+"d ago";
+    }
+
+    function saveMarks(id, marks, msgEl){
+      const data = JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+      const idx = data.findIndex(x => x.id === id);
+      if(idx !== -1){
+        data[idx].marks = marks;
+        localStorage.setItem(LS_KEY, JSON.stringify(data));
+        msgEl.textContent = "✓ Saved";
+        setTimeout(()=> msgEl.textContent="", 2000);
+      }
+    }
+
+    function createCard(item){
+      const card = document.createElement("div");
+      card.className = "card";
+      if (item.id === lastId) card.classList.add("highlight");
+
+      const head = document.createElement("div");
+      head.className = "head";
+      head.innerHTML = `
+        <h3 style="margin:0;">${item.projectTitle}</h3>
+        <div class="badge">${item.teamName}</div>
+      `;
+
+      const body = document.createElement("div");
+      body.className = "body";
+      body.innerHTML = `
+        <div><strong>Leader:</strong> ${item.leaderName} (${item.year})</div>
+        <div><strong>Phone:</strong> ${item.phone}</div>
+        <div><strong>Email:</strong> ${item.email}</div>
+        <p class="muted" style="margin-top:8px;">${item.projectDesc}</p>
+        ${item.projectLink ? `<a class="link" target="_blank" rel="noopener" href="${item.projectLink}">Open Project Link</a>` : ""}
+        <div class="muted" style="margin-top:10px;">Submitted ${timeAgo(item.ts)}</div>
+      `;
+
+      // Marks box
+      const marksBox = document.createElement("div");
+      marksBox.className = "marksBox";
+      marksBox.innerHTML = `
+        <label>Marks:</label>
+        <input type="number" min="0" max="100" value="${item.marks || ""}" />
+        <button>Save</button>
+        <span class="marksSaved"></span>
+      `;
+      const input = marksBox.querySelector("input");
+      const btn = marksBox.querySelector("button");
+      const msg = marksBox.querySelector(".marksSaved");
+      btn.addEventListener("click", ()=> saveMarks(item.id, input.value, msg));
+
+      body.appendChild(marksBox);
+
+      card.appendChild(head);
+      card.appendChild(body);
+      return card;
+    }
+
+    function render(){
+      const wrap = document.getElementById("cards");
+      wrap.innerHTML = "";
+
+      let searchVal = document.getElementById("search").value.toLowerCase();
+      let yearVal = document.getElementById("yearFilter").value;
+
+      let list = allData.filter(item=>{
+        const inSearch = item.projectTitle.toLowerCase().includes(searchVal) ||
+                         item.teamName.toLowerCase().includes(searchVal) ||
+                         item.leaderName.toLowerCase().includes(searchVal);
+        const inYear = yearVal==="" || item.year.toLowerCase().includes(yearVal.toLowerCase());
+        return inSearch && inYear;
+      });
+
+      if(list.length===0){
+        document.getElementById("empty").style.display = "block";
+        return;
+      }
+      document.getElementById("empty").style.display = "none";
+      list.forEach(item => wrap.appendChild(createCard(item)));
+    }
+
+    function init(){
+      allData = JSON.parse(localStorage.getItem(LS_KEY) || "[]").sort((a,b)=>b.ts-a.ts);
+      render();
+    }
+
+    document.getElementById("clearAll").addEventListener("click",()=>{
+      if(confirm("Clear all submissions saved in this browser?")){
+        localStorage.removeItem(LS_KEY);
+        sessionStorage.removeItem("last_submission_id");
+        init();
+      }
+    });
+
+    document.getElementById("search").addEventListener("input",render);
+    document.getElementById("yearFilter").addEventListener("change",render);
+
+    init();
+
+const ADMIN_PIN = "1234"; // only you know this
+
+function createCard(item){
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const head = document.createElement("div");
+  head.className = "head";
+  head.innerHTML = `
+    <h3 style="margin:0;">${item.projectTitle}</h3>
+    <div class="badge">${item.teamName}</div>
+  `;
+
+  const body = document.createElement("div");
+  body.className = "body";
+  body.innerHTML = `
+    <div><strong>Leader:</strong> ${item.leaderName} (${item.year})</div>
+    <div><strong>Phone:</strong> ${item.phone}</div>
+    <div><strong>Email:</strong> ${item.email}</div>
+    <p class="muted">${item.projectDesc}</p>
+    ${item.projectLink ? `<a class="link" target="_blank" href="${item.projectLink}">Open Project</a>` : ""}
+    <div><strong>Marks:</strong> <span id="marks-${item.id}">${item.marks ?? "Not Given"}</span></div>
+    <button onclick="setMarks('${item.id}')">Set Marks</button>
+  `;
+
+  card.appendChild(head);
+  card.appendChild(body);
+  return card;
+}
+
+function setMarks(id){
+  const pin = prompt("Enter Admin PIN:");
+  if(pin !== ADMIN_PIN){
+    alert("Wrong PIN! Only Admin can set marks.");
+    return;
+  }
+  const marks = prompt("Enter marks for this project:");
+  if(marks===null || marks==="") return;
+
+  let list = JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+  list = list.map(item=>{
+    if(item.id===id){
+      item.marks = marks;
+    }
+    return item;
+  });
+  localStorage.setItem(LS_KEY, JSON.stringify(list));
+  document.getElementById(`marks-${id}`).innerText = marks;
+}
+
+
+
+  </script>
+</body>
+</html>
