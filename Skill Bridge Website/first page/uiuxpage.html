@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UI/UX Design Course</title>
+  <link rel="stylesheet" href="uiux.css" />
+</head>
+<body>
+    <div class="body-main" id="body-main">
+      <header>
+    <div class="top-bar">
+      <span>info@skillbridge.com | +91 9876543210</span>
+    </div>
+    <nav class="navbar">
+      <div class="logo">SkillBridge</div>
+      <ul class="nav-links">
+        <li><a href="first.html">Home</a></li>
+        <li><a href="first.html">Courses</a></li>
+        <li><a href="">Contact</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <header>
+    <div class="topbar"></div>
+    <div class="header-content">
+      <h1>Online course on UI/UX Designing</h1>
+      <p>Welcome to our online course page, where you can enhance your skills in design and development...</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="course-card">
+      <div class="card">
+        <div class="card-header">
+          <h2>UI/UX Design</h2>
+          <a href="#video">
+            <button>View Course</button>
+          </a>
+        </div>
+        <p class="card-subtext">Master the art of creating intuitive user interfaces (UI)...</p>
+        <div class="image12">
+            <img src="photo/uiux.jpg" class="uiux" alt="">
+        </div>
+        <div class="card-footer">
+          <span>6 Weeks</span>
+          <span>Intermediate</span>
+        </div>
+        <p class="author">By Emily Johnson</p>
+      </div>
+    </section>
+
+    <section class="description">
+      <h3>Description</h3>
+      <p>Description
+        This course introduces the fundamentals of User Interface (UI) and User Experience (UX) design, guiding learners through the complete design process — from user research to wireframing and prototyping. You'll explore design principles, tools like Figma or Adobe XD, and learn to create responsive, user-friendly interfaces for web and mobile applications. Whether you're a beginner or aspiring designer, this course helps you build a strong foundation and a professional design portfolio.</p>
+    </section>
+
+    <section class="outcomes">
+      <h3>Course Outcomes</h3>
+      <ul>
+        <li>🎯 Understand UI and UX design principles</li>
+        <li>✏️ Design user-centric wireframes, mockups, and prototypes</li>
+        <li>🖥️ Create responsive designs for web and mobile</li>
+        <li>🛠️ Use Figma, Adobe XD, Sketch</li>
+        <li>🔍 Apply usability testing techniques</li>
+        <li>💡 Solve real-world problems with design thinking</li>
+        <li>🚀 Showcase a complete UI/UX project in a portfolio</li>
+      </ul>
+    </section>
+
+    <section class="course-input" id="video">
+      
+        <h2 class="head1">Select Language to Watch the Course</h2>
+
+            <select id="languageSelector" onchange="changeVideo()" class="lang">
+            <option value="https://www.youtube.com/embed/TJtEQ1p1hw4">Tamil</option>
+            <option value="https://www.youtube.com/embed/spGDKJNq-EE">English</option>
+            </select>
+
+            <br><br>
+
+        <iframe id="videoFrame" src="https://www.youtube.com/embed/TJtEQ1p1hw4" allowfullscreen></iframe>
+    </section>
+
+  <script>
+    function changeVideo() {
+      const selector = document.getElementById("languageSelector");
+      const videoFrame = document.getElementById("videoFrame");
+      videoFrame.src = selector.value;
+    }
+  </script>
+
+  </main>
+
+  <footer>
+    <div class="footer-left">
+      <p><strong>📧</strong> hello@skillbridge.com</p>
+      <p><strong>📞</strong> +91 9813 23 2309</p>
+      <p><strong>📍</strong> Somewhere in the World</p>
+    </div>
+    <div class="footer-center">
+      <h4>Home</h4>
+      <p>Benefits</p>
+      <p>Our Courses</p>
+      <p>Our Testimonials</p>
+      <p>Our FAQ</p>
+    </div>
+    <div class="footer-right">
+      <h4>About Us</h4>
+      <p>Company</p>
+      <p>Achievements</p>
+      <p>Our Goals</p>
+      <h4>Social Profiles</h4>
+      <p>📘 🐦 💼</p>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2023 Skillbridge. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nearby Mentors Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    #location-input {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 250px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    button {
+      padding: 10px 15px;
+      margin-left: 10px;
+      border-radius: 6px;
+      border: none;
+      background: #007bff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .mentor-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .mentor-card {
+      background: white;
+      padding: 20px;
+      width: 280px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .mentor-name {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .mentor-location {
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .cert-list {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 15px;
+      color: #444;
+    }
+    .cert-list li {
+      margin-bottom: 5px;
+    }
+    .hire-btn {
+      background: #28a745;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .hire-btn:hover {
+      background: orange;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Find Nearby Mentors</h1>
+
+  <div id="location-input">
+    <input type="text" id="city" placeholder="Enter your city (e.g. Chennai)" />
+    <button onclick="filterMentors()">Search</button>
+    <button onclick="useMyLocation()">Use My Location</button>
+  </div>
+
+  <div class="mentor-list" id="mentor-list">
+    <!-- Mentor cards will be displayed here -->
+  </div>
+
+  <script>
+    // Sample mentor data with city for demo
+    const mentors = [
+      {
+        name: "Rajesh Kumar",
+        city: "Chennai",
+        certifications: ["Google Cloud Certified", "Certified Scrum Master", "AWS Solutions Architect"],
+      },
+      {
+        name: "Anita Sharma",
+        city: "Bangalore",
+        certifications: ["Microsoft Certified: Azure Developer", "PMP", "Oracle Certified Java Programmer"],
+      },
+      {
+        name: "Suresh Patel",
+        city: "Mumbai",
+        certifications: ["Certified Data Scientist", "Google Analytics Expert"],
+      },
+      {
+        name: "Priya Singh",
+        city: "Chennai",
+        certifications: ["AWS Developer", "Docker Certified Associate"],
+      }
+    ];
+
+    // Function to display mentors on the page
+    function showMentors(mentorArray) {
+      const list = document.getElementById('mentor-list');
+      list.innerHTML = '';
+      if (mentorArray.length === 0) {
+        list.innerHTML = '<p>No mentors found nearby.</p>';
+        return;
+      }
+      mentorArray.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'mentor-card';
+        card.innerHTML = `
+          <div class="mentor-name">${m.name}</div>
+          <div class="mentor-location">${m.city}</div>
+          <ul class="cert-list">${m.certifications.map(cert => `<li>${cert}</li>`).join('')}</ul>
+          <button class="hire-btn" onclick="hireMentor('${m.name}')">Hire Mentor</button>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    // Show all mentors on page load
+    showMentors(mentors);
+
+    // Filter mentors by city entered in input
+    function filterMentors() {
+      const cityInput = document.getElementById('city').value.trim().toLowerCase();
+      if (!cityInput) {
+        alert('Please enter a city.');
+        return;
+      }
+      const filtered = mentors.filter(m => m.city.toLowerCase() === cityInput);
+      showMentors(filtered);
+    }
+
+    // Simulated hire action
+    function hireMentor(name) {
+      alert(`You have hired ${name}!`);
+    }
+
+    // Use browser geolocation and reverse geocode city using OpenStreetMap
+    function useMyLocation() {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(success, error);
+
+      function success(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+          .then(res => res.json())
+          .then(data => {
+            let city = "";
+            if (data.address.city) city = data.address.city;
+            else if (data.address.town) city = data.address.town;
+            else if (data.address.village) city = data.address.village;
+            else city = "";
+
+            if (city) {
+              document.getElementById('city').value = city;
+              filterMentors();
+            } else {
+              alert('Could not determine city from location.');
+            }
+          })
+          .catch(() => {
+            alert('Failed to get city from coordinates.');
+          });
+      }
+
+      function error() {
+        alert('Unable to retrieve your location');
+      }
+    }
+  </script>
+
+</body>
+</html>
+

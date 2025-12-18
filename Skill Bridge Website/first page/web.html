@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UI/UX Design Course</title>
+  <link rel="stylesheet" href="uiux.css" />
+</head>
+<body>
+    <div class="body-main" id="body-main">
+      <header>
+    <div class="top-bar">
+      <span>info@skillbridge.com | +91 9876543210</span>
+    </div>
+    <nav class="navbar">
+      <div class="logo">SkillBridge</div>
+      <ul class="nav-links">
+        <li><a href="first.html">Home</a></li>
+        <li><a href="first.html">Courses</a></li>
+        <li><a href="">Contact</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <header>
+    <div class="topbar"></div>
+    <div class="header-content">
+      <h1>Online course on Web Development</h1>
+      <p>Welcome to our online course page, where you can enhance your skills in Website development...</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="course-card">
+      <div class="card">
+        <div class="card-header">
+          <h2>Web Development</h2>
+          <a href="#video">
+            <button>View Course</button>
+          </a>
+        </div>
+        <p class="card-subtext">Master the art of creating intuitive user interfaces (UI)...</p>
+        <div class="image12">
+            <img src="photo/OIP.webp" class="uiux" alt="">
+        </div>
+        <div class="card-footer">
+          <span>6 Weeks</span>
+          <span>Intermediate</span>
+        </div>
+        <p class="author">By Emily Johnson</p>
+      </div>
+    </section>
+
+    <section class="description">
+      <h3>Description</h3>
+      <p>Description
+        Web development is the process of building and maintaining websites and web applications. It involves front-end development (design and user interface) and back-end development (server, database, and logic). Web developers use languages like HTML, CSS, JavaScript, and frameworks to create interactive, functional websites.
+</p>
+    </section>
+
+    <section class="outcomes">
+      <h3>Course Outcomes</h3>
+      <ul>
+        <li>Understand the fundamentals of web technologies, including HTML, CSS, and JavaScript.</li>
+        <li>Develop responsive and user-friendly websites using front-end frameworks.</li>
+        <li>Build dynamic web applications using server-side scripting and databases.</li>
+        <li>Apply web development tools and version control systems like Git.</li>
+        <li>Implement best practices for web design, performance, and accessibility.</li>
+        <li>Deploy and maintain web applications on web servers or cloud platforms.</li>
+      </ul>
+    </section>
+
+    <section class="course-input" id="video">
+      
+        <h2 class="head1">Select Language to Watch the Course</h2>
+
+            <select id="languageSelector" onchange="changeVideo()" class="lang">
+            <option value="https://www.youtube.com/embed/FYErehuSuuw?si=ZZf1_Y26L4lSfIgA">Tamil</option>
+            <option value="https://www.youtube.com/embed/ZxKM3DCV2kE?si=eTKa2t9cTbRc0nU5">English</option>
+            </select>
+
+            <br><br>
+
+        <iframe id="videoFrame" src="https://www.youtube.com/embed/FYErehuSuuw?si=ZZf1_Y26L4lSfIgA" allowfullscreen></iframe>
+    </section>
+
+  <script>
+    function changeVideo() {
+      const selector = document.getElementById("languageSelector");
+      const videoFrame = document.getElementById("videoFrame");
+      videoFrame.src = selector.value;
+    }
+  </script>
+
+  </main>
+
+  <footer>
+    <div class="footer-left">
+      <p><strong>📧</strong> hello@skillbridge.com</p>
+      <p><strong>📞</strong> +91 9813 23 2309</p>
+      <p><strong>📍</strong> Somewhere in the World</p>
+    </div>
+    <div class="footer-center">
+      <h4>Home</h4>
+      <p>Benefits</p>
+      <p>Our Courses</p>
+      <p>Our Testimonials</p>
+      <p>Our FAQ</p>
+    </div>
+    <div class="footer-right">
+      <h4>About Us</h4>
+      <p>Company</p>
+      <p>Achievements</p>
+      <p>Our Goals</p>
+      <h4>Social Profiles</h4>
+      <p>📘 🐦 💼</p>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2023 Skillbridge. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

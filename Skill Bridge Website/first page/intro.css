@@ -1,0 +1,87 @@
+/* Reset default styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+.intro-container {
+  background: linear-gradient(135deg, #3b82f6, #9333ea);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  animation: bgPulse 10s infinite alternate;
+}
+
+@keyframes bgPulse {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+.content h1 span {
+  color: #facc15;
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.content p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: slideUp 2s 1s forwards;
+}
+
+.btn {
+  padding: 12px 30px;
+  background-color: #facc15;
+  color: #1e293b;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 25px;
+  transition: transform 0.3s ease, background 0.3s ease;
+  opacity: 0;
+  animation: zoomIn 1.5s 2s forwards;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  background-color: #fcd34d;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

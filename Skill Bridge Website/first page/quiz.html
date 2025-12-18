@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Full Stack Development Quiz</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 30px; }
+    .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+    .tab { padding: 10px 20px; cursor: pointer; background: #ddd; border-radius: 5px; }
+    .tab.active { background: #4CAF50; color: white; }
+    .quiz-section { display: none; }
+    .quiz-section.active { display: block; }
+    .question { margin: 15px 0; }
+    .question p { margin-bottom: 5px; }
+    label { display: block; margin-left: 20px; }
+    button { display: block; margin: 30px auto; padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    .result { text-align: center; font-weight: bold; font-size: 18px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Full Stack Development Quiz</h1>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('basic')">🟢 Basic</div>
+      <div class="tab" onclick="switchTab('intermediate')">🟡 Intermediate</div>
+      <div class="tab" onclick="switchTab('advanced')">🔴 Advanced</div>
+    </div>
+
+    <form id="quizForm">
+      <div id="basic" class="quiz-section active"><h2>Basic Level</h2><div id="basicQuestions"></div></div>
+      <div id="intermediate" class="quiz-section"><h2>Intermediate Level</h2><div id="intermediateQuestions"></div></div>
+      <div id="advanced" class="quiz-section"><h2>Advanced Level</h2><div id="advancedQuestions"></div></div>
+      <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+      <div class="result" id="result"></div>
+    </form>
+  </div>
+
+  <script>
+    const questions = {
+      basic: [
+        { q: "What does HTML stand for?", options: ["Hyper Trainer Marking Language", "Hyper Text Markup Language", "Hyper Text Marketing Language", "None of the above"], answer: 1 },
+        { q: "What does CSS stand for?", options: ["Creative Style Sheets", "Computer Style Sheets", "Cascading Style Sheets", "Colorful Style Sheets"], answer: 2 },
+        { q: "Which property is used to change the background color in CSS?", options: ["bgcolor", "background-color", "color", "backgroundStyle"], answer: 1 },
+        { q: "Which of the following is a correct way to declare a JavaScript variable?", options: ["variable x = 5;", "v x = 5;", "var x = 5;", "int x = 5;"], answer: 2 },
+        { q: "Which method is used to output data to the browser console in JS?", options: ["console.log()", "print()", "document.log()", "echo()"], answer: 0 },
+        { q: "How do you select an element by ID in JavaScript?", options: ["document.getElement(\"id\")", "document.getElementById(\"id\")", "document.query(\"id\")", "getElement(\"id\")"], answer: 1 },
+        { q: "What does === mean in JavaScript?", options: ["Assignment", "Equal value and type", "Equal value only", "Not equal"], answer: 1 },
+        { q: "Which of these is a loop structure in JavaScript?", options: ["for", "loop", "repeat", "foreach"], answer: 0 },
+        { q: "Which event occurs when a user clicks on an HTML element?", options: ["onmouseclick", "onclick", "onmouseover", "onpress"], answer: 1 },
+        { q: "What is Git primarily used for?", options: ["Designing UI", "Creating databases", "Version control", "Project documentation"], answer: 2 },
+        { q: "Which command initializes a Git repository?", options: ["git start", "git init", "git new", "git create"], answer: 1 },
+        { q: "What does git commit do?", options: ["Saves changes to GitHub", "Stages changes", "Records changes to the repository", "Undoes changes"], answer: 2 },
+        { q: "Which Git command shows changes between commits?", options: ["git show", "git compare", "git diff", "git update"], answer: 2 },
+        { q: "What is GitHub?", options: ["A cloud server", "A social media site", "A Git repository hosting service", "A JavaScript framework"], answer: 2 },
+        { q: "What is Node.js?", options: ["A front-end framework", "A programming language", "A runtime for executing JavaScript on the server", "A CSS library"], answer: 2 },
+        { q: "What does npm stand for?", options: ["Node Personal Manager", "Node Package Manager", "Network Package Module", "New Program Manager"], answer: 1 },
+        { q: "Which function handles HTTP requests in Express?", options: ["createRequest()", "http()", "app.get()", "request()"], answer: 2 },
+        { q: "Which command installs an npm package globally?", options: ["npm install -g package", "npm add package", "npm setup package", "install npm package"], answer: 0 },
+        { q: "What does REST stand for?", options: ["Representational State Transfer", "Recursive Style Table", "Rapid Server Testing", "Relational Simple Transfer"], answer: 0 },
+        { q: "What does SQL stand for?", options: ["Structured Query Language", "Simple Query List", "Style Question Language", "Statement Query Logic"], answer: 0 },
+        { q: "Which command retrieves data from a SQL database?", options: ["FETCH", "GET", "RETRIEVE", "SELECT"], answer: 3 },
+        { q: "Which of these is a NoSQL database?", options: ["MySQL", "PostgreSQL", "MongoDB", "SQLite"], answer: 2 },
+        { q: "What does CRUD stand for?", options: ["Create, Read, Update, Delete", "Copy, Remove, Upload, Download", "Create, Run, Undo, Debug", "Control, Replace, Update, Drop"], answer: 0 },
+        { q: "Which protocol is primarily used for web communication?", options: ["FTP", "SSH", "HTTP", "SMTP"], answer: 2 },
+        { q: "What is the purpose of a web server?", options: ["Design web pages", "Run JavaScript", "Serve files and applications", "Connect databases"], answer: 2 },
+        { q: "Which of the following is a popular hosting platform?", options: ["Firebase", "Git", "JSON", "Bootstrap"], answer: 0 },
+        { q: "What file is usually used to describe a Node.js project?", options: ["index.js", "config.json", "package.json", "project.json"], answer: 2 },
+        { q: "Which of the following is a front-end framework?", options: ["Angular", "Django", "Flask", "Laravel"], answer: 0 },
+        { q: "What does a full stack developer do?", options: ["Only front-end work", "Only back-end logic", "Handles both front-end and back-end", "Only database management"], answer: 2 }
+      ],
+      intermediate: [
+        { q: "What does HTML stand for?", options: ["Hyper Trainer Marking Language", "Hyper Text Markup Language", "Hyper Text Marketing Language", "None of the above"], answer: 1 },
+        { q: "What does CSS stand for?", options: ["Creative Style Sheets", "Computer Style Sheets", "Cascading Style Sheets", "Colorful Style Sheets"], answer: 2 },
+        { q: "Which property is used to change the background color in CSS?", options: ["bgcolor", "background-color", "color", "backgroundStyle"], answer: 1 },
+        { q: "Which of the following is a correct way to declare a JavaScript variable?", options: ["variable x = 5;", "v x = 5;", "var x = 5;", "int x = 5;"], answer: 2 },
+        { q: "Which method is used to output data to the browser console in JS?", options: ["console.log()", "print()", "document.log()", "echo()"], answer: 0 },
+        { q: "How do you select an element by ID in JavaScript?", options: ["document.getElement(\"id\")", "document.getElementById(\"id\")", "document.query(\"id\")", "getElement(\"id\")"], answer: 1 },
+        { q: "What does === mean in JavaScript?", options: ["Assignment", "Equal value and type", "Equal value only", "Not equal"], answer: 1 },
+        { q: "Which of these is a loop structure in JavaScript?", options: ["for", "loop", "repeat", "foreach"], answer: 0 },
+        { q: "Which event occurs when a user clicks on an HTML element?", options: ["onmouseclick", "onclick", "onmouseover", "onpress"], answer: 1 },
+        { q: "What is Git primarily used for?", options: ["Designing UI", "Creating databases", "Version control", "Project documentation"], answer: 2 },
+        { q: "Which command initializes a Git repository?", options: ["git start", "git init", "git new", "git create"], answer: 1 },
+        { q: "What does git commit do?", options: ["Saves changes to GitHub", "Stages changes", "Records changes to the repository", "Undoes changes"], answer: 2 },
+        { q: "Which Git command shows changes between commits?", options: ["git show", "git compare", "git diff", "git update"], answer: 2 },
+        { q: "What is GitHub?", options: ["A cloud server", "A social media site", "A Git repository hosting service", "A JavaScript framework"], answer: 2 },
+        { q: "What is Node.js?", options: ["A front-end framework", "A programming language", "A runtime for executing JavaScript on the server", "A CSS library"], answer: 2 },
+        { q: "What does npm stand for?", options: ["Node Personal Manager", "Node Package Manager", "Network Package Module", "New Program Manager"], answer: 1 },
+        { q: "Which function handles HTTP requests in Express?", options: ["createRequest()", "http()", "app.get()", "request()"], answer: 2 },
+        { q: "Which command installs an npm package globally?", options: ["npm install -g package", "npm add package", "npm setup package", "install npm package"], answer: 0 },
+        { q: "What does REST stand for?", options: ["Representational State Transfer", "Recursive Style Table", "Rapid Server Testing", "Relational Simple Transfer"], answer: 0 },
+        { q: "What does SQL stand for?", options: ["Structured Query Language", "Simple Query List", "Style Question Language", "Statement Query Logic"], answer: 0 },
+        { q: "Which command retrieves data from a SQL database?", options: ["FETCH", "GET", "RETRIEVE", "SELECT"], answer: 3 },
+        { q: "Which of these is a NoSQL database?", options: ["MySQL", "PostgreSQL", "MongoDB", "SQLite"], answer: 2 },
+        { q: "What does CRUD stand for?", options: ["Create, Read, Update, Delete", "Copy, Remove, Upload, Download", "Create, Run, Undo, Debug", "Control, Replace, Update, Drop"], answer: 0 },
+        { q: "Which protocol is primarily used for web communication?", options: ["FTP", "SSH", "HTTP", "SMTP"], answer: 2 },
+        { q: "What is the purpose of a web server?", options: ["Design web pages", "Run JavaScript", "Serve files and applications", "Connect databases"], answer: 2 },
+        { q: "Which of the following is a popular hosting platform?", options: ["Firebase", "Git", "JSON", "Bootstrap"], answer: 0 },
+        { q: "What file is usually used to describe a Node.js project?", options: ["index.js", "config.json", "package.json", "project.json"], answer: 2 },
+        { q: "Which of the following is a front-end framework?", options: ["Angular", "Django", "Flask", "Laravel"], answer: 0 },
+        { q: "What does a full stack developer do?", options: ["Only front-end work", "Only back-end logic", "Handles both front-end and back-end", "Only database management"], answer: 2 }
+      ],
+      advanced: [
+        { q: "What does HTML stand for?", options: ["Hyper Trainer Marking Language", "Hyper Text Markup Language", "Hyper Text Marketing Language", "None of the above"], answer: 1 },
+        { q: "What does CSS stand for?", options: ["Creative Style Sheets", "Computer Style Sheets", "Cascading Style Sheets", "Colorful Style Sheets"], answer: 2 },
+        { q: "Which property is used to change the background color in CSS?", options: ["bgcolor", "background-color", "color", "backgroundStyle"], answer: 1 },
+        { q: "Which of the following is a correct way to declare a JavaScript variable?", options: ["variable x = 5;", "v x = 5;", "var x = 5;", "int x = 5;"], answer: 2 },
+        { q: "Which method is used to output data to the browser console in JS?", options: ["console.log()", "print()", "document.log()", "echo()"], answer: 0 },
+        { q: "How do you select an element by ID in JavaScript?", options: ["document.getElement(\"id\")", "document.getElementById(\"id\")", "document.query(\"id\")", "getElement(\"id\")"], answer: 1 },
+        { q: "What does === mean in JavaScript?", options: ["Assignment", "Equal value and type", "Equal value only", "Not equal"], answer: 1 },
+        { q: "Which of these is a loop structure in JavaScript?", options: ["for", "loop", "repeat", "foreach"], answer: 0 },
+        { q: "Which event occurs when a user clicks on an HTML element?", options: ["onmouseclick", "onclick", "onmouseover", "onpress"], answer: 1 },
+        { q: "What is Git primarily used for?", options: ["Designing UI", "Creating databases", "Version control", "Project documentation"], answer: 2 },
+        { q: "Which command initializes a Git repository?", options: ["git start", "git init", "git new", "git create"], answer: 1 },
+        { q: "What does git commit do?", options: ["Saves changes to GitHub", "Stages changes", "Records changes to the repository", "Undoes changes"], answer: 2 },
+        { q: "Which Git command shows changes between commits?", options: ["git show", "git compare", "git diff", "git update"], answer: 2 },
+        { q: "What is GitHub?", options: ["A cloud server", "A social media site", "A Git repository hosting service", "A JavaScript framework"], answer: 2 },
+        { q: "What is Node.js?", options: ["A front-end framework", "A programming language", "A runtime for executing JavaScript on the server", "A CSS library"], answer: 2 },
+        { q: "What does npm stand for?", options: ["Node Personal Manager", "Node Package Manager", "Network Package Module", "New Program Manager"], answer: 1 },
+        { q: "Which function handles HTTP requests in Express?", options: ["createRequest()", "http()", "app.get()", "request()"], answer: 2 },
+        { q: "Which command installs an npm package globally?", options: ["npm install -g package", "npm add package", "npm setup package", "install npm package"], answer: 0 },
+        { q: "What does REST stand for?", options: ["Representational State Transfer", "Recursive Style Table", "Rapid Server Testing", "Relational Simple Transfer"], answer: 0 },
+        { q: "What does SQL stand for?", options: ["Structured Query Language", "Simple Query List", "Style Question Language", "Statement Query Logic"], answer: 0 },
+        { q: "Which command retrieves data from a SQL database?", options: ["FETCH", "GET", "RETRIEVE", "SELECT"], answer: 3 },
+        { q: "Which of these is a NoSQL database?", options: ["MySQL", "PostgreSQL", "MongoDB", "SQLite"], answer: 2 },
+        { q: "What does CRUD stand for?", options: ["Create, Read, Update, Delete", "Copy, Remove, Upload, Download", "Create, Run, Undo, Debug", "Control, Replace, Update, Drop"], answer: 0 },
+        { q: "Which protocol is primarily used for web communication?", options: ["FTP", "SSH", "HTTP", "SMTP"], answer: 2 },
+        { q: "What is the purpose of a web server?", options: ["Design web pages", "Run JavaScript", "Serve files and applications", "Connect databases"], answer: 2 },
+        { q: "Which of the following is a popular hosting platform?", options: ["Firebase", "Git", "JSON", "Bootstrap"], answer: 0 },
+        { q: "What file is usually used to describe a Node.js project?", options: ["index.js", "config.json", "package.json", "project.json"], answer: 2 },
+        { q: "Which of the following is a front-end framework?", options: ["Angular", "Django", "Flask", "Laravel"], answer: 0 },
+        { q: "What does a full stack developer do?", options: ["Only front-end work", "Only back-end logic", "Handles both front-end and back-end", "Only database management"], answer: 2 }
+      ]
+    };
+
+    function renderQuestions() {
+      ["basic", "intermediate", "advanced"].forEach(level => {
+        const container = document.getElementById(level + "Questions");
+        questions[level].forEach((q, i) => {
+          const id = `${level}_${i}`;
+          const div = document.createElement("div");
+          div.className = "question";
+          div.innerHTML = `<p>${i + 1}. ${q.q}</p>` + q.options.map((opt, j) =>
+            `<label><input type="radio" name="${id}" value="${j}"> ${opt}</label>`
+          ).join("");
+          container.appendChild(div);
+        });
+      });
+    }
+
+    function submitQuiz() {
+      let total = 0, correct = 0;
+      for (let level in questions) {
+        questions[level].forEach((q, i) => {
+          total++;
+          const selected = document.querySelector(`input[name="${level}_${i}"]:checked`);
+          if (selected && parseInt(selected.value) === q.answer) correct++;
+        });
+      }
+      const score = (correct / total) * 100;
+      const result = document.getElementById("result");
+      result.style.color = score >= 85 ? "green" : "red";
+      result.textContent = score >= 85 ? `✅ Quiz Passed! Score: ${score.toFixed(2)}%` : `❌ Quiz Failed. Score: ${score.toFixed(2)}%`;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll(".quiz-section").forEach(sec => sec.classList.remove("active"));
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      event.target.classList.add("active");
+    }
+
+    renderQuestions();
+  </script>
+</body>
+</html>
