@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guna Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://res.cloudinary.com/drnh1lvgw/image/upload/v1722069570/IMG_unlggm.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="navbar">
+        <div class="left">
+            <div class="letter">
+                    <h1>VG</h1>
+            </div>
+            <div class="name">
+                    <h3 class="na">Venkata Gunavardhan</h3>
+                    <p class="pa">.WebDeveloper .FullStack</p>
+            </div>
+        </div>
+        <div class="right">
+            <div class="links" id="mobileMenu">
+                <a href="index.html">Home</a>
+                <a href="projects.html">Projects</a>
+                <a href="skills.html">Skills</a>
+                <a href="resume.html">Resume</a>
+                <a href="Certification.HTML">Certificates</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="menu" id="menuIcon">
+                <i class="fa-solid fa-list"></i>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="cert-header fade-in-normal">
+    <div>
+        <h2>Certificates 🏅</h2>
+        <p>Explore my certifications — technical & others.</p>
+    </div>
+
+    <div class="cert-buttons">
+        <button class="filter-btn active" onclick="filterCert('tech')">Tech</button>
+        <button class="filter-btn" onclick="filterCert('nontech')">Non Tech</button>
+    </div>
+</div>
+
+
+<!--main branch-->
+
+    <div class="images fade-in-normal">
+        <div class="img1 tech">
+            <img src="infosys certificate.jpg" class="img2">
+            <h3>Infosys Hackathon</h3>
+            <p>Infosys • 2025</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+
+        <div class="img1 tech">
+            <img src="snap hack certificate.jpg"    class="img2">
+            <h3>SnapHack Hackathon</h3>
+            <p>Hackathon • 2025</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+
+        <div class="img1 tech">
+            <img src="interview call letter.jpg" class="img2">
+            <h3>Campervan Interview</h3>
+            <p> Interview Call Letter• 2025</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+        <div class="img1 tech">
+            <img src="APSPDCL.jpg" class="img2">
+            <h3>APSPDCL Intenship</h3>
+            <p>Internship letter • 2025</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+
+        <div class="img1 tech">
+            <img src="project management certificate.jpg"class="img2">
+            <h3>Project management</h3>
+            <p>Certificate • 2024</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+
+        <div class="img1 tech">
+            <img src="operating system certificate.jpg" class="img2">
+            <h3>Operatng Systems</h3>
+            <p> Certificate • 2024</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+        <div class="img1 tech">
+            <img src="data science certificate.jpg" class="img2">
+            <h3>Data science</h3>
+            <p>Certificate • 2024</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+
+        <div class="img1 tech">
+            <img src="getting started with machine learning and algorithm certificate.jpg"    class="img2">
+            <h3>AIML</h3>
+            <p>Certificate • 2024</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+
+        <div class="img1 tech">
+            <img src="python pandas certificate.jpg" class="img2">
+            <h3>Python Pandas</h3>
+            <p> Certificate • 2024</p>
+            <button class="view-btn" onclick="openCert(this)">View</button>
+        </div>
+
+    </div>
+
+<!-- Modal -->
+<div class="cert-modal" id="certModal">
+  <span onclick="closeCert()">×</span>
+  <img id="certImg">
+</div>
+
+
+
+
+
+
+
+
+
+<!--2 nd certificate  non tech-->
+<div class="images fade-in-normal">
+    <div class="img1 nontech">
+        <img src="Abacus.jpg" class="img2">
+        <h3>Telugu Book Of Records </h3>
+        <p>Abacus Certificate • 2020</p>
+        <button class="view-btn" onclick="openCert(this)">View</button>
+    </div>
+    
+    <div class="img1 nontech">
+        <img src="Tennis.jpg" class="img2">
+        <h3> AP Tennis District Player</h3>
+        <p> Tennis Certificate • 2021</p>
+        <button class="view-btn" onclick="openCert(this)">View</button>
+    </div>
+
+    <div class="img1 nontech">
+        <img src="Abacus 2.jpg" class="img2">
+        <h3>Abacus District Topper</h3>
+        <p>Abacus Certificate • 2020</p>
+        <button class="view-btn" onclick="openCert(this)">View</button>
+    </div>
+
+    <div class="img1 nontech">
+        <img src="" class="img2">
+        <h3>AP Tennis State Player</h3>
+        <p>Tennis Certificate • 2022</p>
+        <button class="view-btn" onclick="openCert(this)">View</button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="cert-modal" id="certModal">
+  <span onclick="closeCert()">×</span>
+  <img id="certImg">
+</div>
+
+
+
+
+
+
+
+
+    
+    <script src="index.js"></script>
+</body>
+</html>
